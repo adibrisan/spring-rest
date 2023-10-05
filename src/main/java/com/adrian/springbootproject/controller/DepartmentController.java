@@ -1,6 +1,7 @@
 package com.adrian.springbootproject.controller;
 
 import com.adrian.springbootproject.entity.Department;
+import com.adrian.springbootproject.error.DepartmentNotFoundException;
 import com.adrian.springbootproject.service.DepartmentService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -27,7 +28,7 @@ public class DepartmentController {
         return departmentService.fetchDepartmentList();
     }
     @GetMapping("/departments/{id}")
-    public Department fetchDepartmentById(@PathVariable("id") Long departmentId){
+    public Department fetchDepartmentById(@PathVariable("id") Long departmentId) throws DepartmentNotFoundException {
         return departmentService.fetchDepartmentById(departmentId);
     }
     @DeleteMapping("/departments/{id}")
