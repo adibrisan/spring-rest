@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Department {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long departmentId;
     @NotBlank(message = "Please add department name.")
     private String departmentName;
