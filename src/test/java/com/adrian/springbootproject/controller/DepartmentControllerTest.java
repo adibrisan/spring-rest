@@ -10,10 +10,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(DepartmentController.class)
 class DepartmentControllerTest {
@@ -36,10 +37,13 @@ class DepartmentControllerTest {
                 "    \"departmentName\":\"IT\",\n" +
                 "    \"departmentAddress\":\"Rarau\",\n" +
                 "    \"departmentCode\":\"IT-09\"\n" +
-                "}")).andExpect(MockMvcResultMatchers.status().isOk());
+                "}")).andExpect(status().isOk());
     }
 
     @Test
-    void fetchDepartmentById() {
+    void fetchDepartmentById() throws Exception {
+        Mockito.when(departmentService.fetchDepartmentById(1L)).thenReturn(department);
+        ResultMatcher status;
+        mockMvc.perform(MockMvcRequestBuilders.get("/departments/1").contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk()).andExpect(jsonPath("$.departmentName").value(department.getDepartmentName()));
     }
 }
